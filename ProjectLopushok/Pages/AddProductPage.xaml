@@ -1,0 +1,56 @@
+﻿<Page x:Class="ProjectLopushok.Pages.AddProductPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ProjectLopushok.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddProductPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Артикул: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding ArticleNumber}" Width="150" Height="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Наименование: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding Title}" Width="150" Height="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Тип продукта: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <ComboBox Name="CmbType" Width="150" Height="25"
+                          SelectedItem="{Binding ProductType}" DisplayMemberPath="Title" SelectedValuePath="ID"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Человек для производства: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding ProductionPersonCount}" Width="150" Height="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Номер производственного цеха: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding ProductionWorkshopNumber}" Width="150" Height="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Минимальная стоимость для агента: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding MinCostForAgent}" Width="150" Height="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Image: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding Image}" Width="150" Height="25"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Описвание: " Width="300" FontFamily="Gabriola" FontSize="20" Margin="5"/>
+                <TextBox Text="{Binding Description}" Width="150" Height="25"/>
+            </StackPanel>
+        </StackPanel>
+        <Grid Grid.Row="1" Background="#CEFFF9">
+            <Button Name="Save_btn" Click="Save_btn_Click" Height="25" Width="100" Content="Добавить" FontFamily="Gabriola" FontSize="15" Background="#00CC76" HorizontalAlignment="Left" Margin="15 0 0 0"></Button>
+            <Button Name="Cancel_btn" Click="Cancel_btn_Click" Height="25" Width="100" Content="Отмена" FontFamily="Gabriola" FontSize="15" Background="#00CC76" HorizontalAlignment="Right" Margin="0 0 15 0"></Button>
+        </Grid>
+    </Grid>
+</Page>

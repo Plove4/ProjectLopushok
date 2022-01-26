@@ -22,12 +22,11 @@ namespace ProjectLopushok.Pages
     /// </summary>
     public partial class PageProduct : Page
     {
-        public List<ProductMaterial> ItemsProdusctMaterial { get { return DBcontext.Context.ProductMaterial.ToList(); } }
         public PageProduct()
         {
             InitializeComponent();
 
-            ListProduct.ItemsSource = ItemsProdusctMaterial;
+            ListProduct.ItemsSource = DBcontext.Context.Product.ToList();
 
             var ProductType = DBcontext.Context.ProductType.ToList();
             ProductType.Insert(0, new ProductType { Title = "Все типы"});
@@ -43,14 +42,14 @@ namespace ProjectLopushok.Pages
 
         private void SortingChane()
         {
-            var sortingItem = DBcontext.Context.ProductMaterial.ToList();
+            var sortingItem = DBcontext.Context.Product.ToList();
             if(string.IsNullOrWhiteSpace(TxtSearch.Text) == false)
             {
-                sortingItem = sortingItem.Where(sort => sort.Product.Title.ToLower().Contains(TxtSearch.Text.ToLower()) || sort.Product.Description.ToLower().Contains(TxtSearch.Text.ToLower())).ToList();
+                sortingItem = sortingItem.Where(sort => sort.Title.ToLower().Contains(TxtSearch.Text.ToLower()) || sort.Description.ToLower().Contains(TxtSearch.Text.ToLower())).ToList();
             }
             if(cmbType.SelectedIndex > 0)
             {
-                sortingItem = sortingItem.Where(sort => sort.Product.ProductTypeID == cmbType.SelectedIndex).ToList();
+                sortingItem = sortingItem.Where(sort => sort.ProductTypeID == cmbType.SelectedIndex).ToList();
             }
             switch (cmbSort.SelectedIndex)
             {
@@ -58,11 +57,11 @@ namespace ProjectLopushok.Pages
                     {
                         if(chbfiltr.IsChecked == true)
                         {
-                            sortingItem = sortingItem.OrderByDescending(sort => sort.Product.Title).ToList();
+                            sortingItem = sortingItem.OrderByDescending(sort => sort.Title).ToList();
                         }
                         else
                         {
-                            sortingItem = sortingItem.OrderBy(sort => sort.Product.Title).ToList();
+                            sortingItem = sortingItem.OrderBy(sort => sort.Title).ToList();
                         }
                         break;
                     }
@@ -70,11 +69,11 @@ namespace ProjectLopushok.Pages
                     {
                         if (chbfiltr.IsChecked == true)
                         {
-                            sortingItem = sortingItem.OrderByDescending(sort => sort.Product.ProductionWorkshopNumber).ToList();
+                            sortingItem = sortingItem.OrderByDescending(sort => sort.ProductionWorkshopNumber).ToList();
                         }
                         else
                         {
-                            sortingItem = sortingItem.OrderBy(sort => sort.Product.ProductionWorkshopNumber).ToList();
+                            sortingItem = sortingItem.OrderBy(sort => sort.ProductionWorkshopNumber).ToList();
                         }
                         break;
                     }
@@ -82,11 +81,11 @@ namespace ProjectLopushok.Pages
                     {
                         if (chbfiltr.IsChecked == true)
                         {
-                            sortingItem = sortingItem.OrderByDescending(sort => sort.Product.MinCostForAgent).ToList();
+                            sortingItem = sortingItem.OrderByDescending(sort => sort.MinCostForAgent).ToList();
                         }
                         else
                         {
-                            sortingItem = sortingItem.OrderBy(sort => sort.Product.MinCostForAgent).ToList();
+                            sortingItem = sortingItem.OrderBy(sort => sort.MinCostForAgent).ToList();
                         }
                         break;
                     }
@@ -117,6 +116,45 @@ namespace ProjectLopushok.Pages
         private void cmbSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SortingChane();
+        }
+
+        private void ListProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Edit_btn.Visibility = Visibility.Visible;
+            delet_btn.Visibility = Visibility.Visible;
+        }
+
+        private void Add_btn_Click(object sender, RoutedEventArgs e)
+        {
+            FrameManeger.frmMain.Navigate(new AddProductPage(null));
+            ListProduct.ItemsSource = DBcontext.Context.Product.ToList();
+        }
+
+        private void Edit_btn_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ListProduct.SelectedItem;
+            FrameManeger.frmMain.Navigate(new AddProductPage(item as Product));
+            ListProduct.ItemsSource = DBcontext.Context.Product.ToList();
+        }
+
+        private void delet_btn_Click(object sender, RoutedEventArgs e)
+        {
+            var delit = ListProduct.SelectedItem as Product;
+            if (MessageBox.Show($"Вы хотите удалить продукт №{delit.ID} ?", "Удаление данных", MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    DBcontext.Context.Product.Remove(delit);
+                    DBcontext.Context.SaveChanges();
+                    MessageBox.Show("Данные удачены");
+                    ListProduct.ItemsSource = DBcontext.Context.Product.ToList();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
     }
 }

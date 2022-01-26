@@ -31,7 +31,39 @@ namespace ProjectLopushok.Entities
         public Nullable<int> ProductionPersonCount { get; set; }
         public Nullable<int> ProductionWorkshopNumber { get; set; }
         public decimal MinCostForAgent { get; set; }
-    
+
+        public string Materials
+        {
+            get
+            {
+                string materials = null;
+
+                foreach (var item in ProductMaterial)
+                {
+                    materials += item.Material.Title + ", ";
+                }
+
+                if (materials != null)
+                    return materials.Remove(materials.Length - 2, 2);
+                else
+                    return "Не имеются";
+            }
+        }
+        public decimal Cost
+        {
+            get
+            {
+                decimal cost = 0;
+
+                foreach (var item in ProductMaterial)
+                {
+                    cost += item.Material.Cost * (int)item.Count;
+                }
+
+                return cost;
+            }
+        }
+
         public virtual ProductType ProductType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductCostHistory> ProductCostHistory { get; set; }

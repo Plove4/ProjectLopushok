@@ -29,7 +29,7 @@
                           Checked="chbfiltr_Checked" Unchecked="chbfiltr_Unchecked"></CheckBox>
             </StackPanel>
         </Grid>
-        <ListView Grid.Row="1" x:Name="ListProduct" Width="820" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListView Grid.Row="1" x:Name="ListProduct" Width="1020" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListProduct_SelectionChanged">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel>
@@ -40,33 +40,39 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black" BorderThickness="1">
-                        <Grid Width="800" Height="120" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid Width="1000" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="140"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="150"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Product.Image, StringFormat=..\\Resources{0}}" x:Name="StringImage" Visibility="Collapsed" Width="Auto"></TextBlock>
+                            <TextBlock Text="{Binding Image, StringFormat=..\\Resources{0}}" x:Name="StringImage" Visibility="Collapsed" Width="Auto"></TextBlock>
                             <Image Grid.Column="0" Source="{Binding Text, ElementName=StringImage, FallbackValue={StaticResource NullImage}}" Stretch="Uniform" Margin="10"></Image>
-                            <TextBlock Text="{Binding Material.Cost, StringFormat={}{0:.00} Руб.}" Grid.Column="2" FontFamily="Gabriola" FontSize="30" HorizontalAlignment="Left" Margin="0 0 0 0"></TextBlock>
+                            <TextBlock Text="{Binding Cost, StringFormat={}{0:.00} Руб.}" Grid.Column="2" FontFamily="Gabriola" FontSize="30" HorizontalAlignment="Right" Margin="0 0 15 0"></TextBlock>
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                    <RowDefinition Height="50"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Product.ProductType.Title, StringFormat={}{0} |}" Grid.Row="0" FontFamily="Gabriola" FontSize="30" ></TextBlock>
-                                    <TextBlock Text="{Binding Product.Title, StringFormat={} {0}}" Grid.Row="0" FontFamily="Gabriola" FontSize="30" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding ProductType.Title, StringFormat={}{0} |}" Grid.Row="0" FontFamily="Gabriola" FontSize="30" ></TextBlock>
+                                    <TextBlock Text="{Binding Title, StringFormat={} {0}}" Grid.Row="0" FontFamily="Gabriola" FontSize="30" HorizontalAlignment="Left"></TextBlock>
                                 </StackPanel>
-                                <TextBlock Text="{Binding Product.ArticleNumber}" Grid.Row="1" FontFamily="Gabriola" FontSize="30" VerticalAlignment="Center"></TextBlock>
-                                <TextBlock Text="{Binding Material.Title, StringFormat={}Матуриалы: {0}}" Grid.Row="2" FontFamily="Gabriola" FontSize="30" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding ArticleNumber}" Grid.Row="1" FontFamily="Gabriola" FontSize="30" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding Materials, StringFormat={}Материалы: {0}}" Grid.Row="2" FontFamily="Gabriola" FontSize="22" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                             </Grid>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Row="2" Background="#CEFFF9"></Grid>
+        <Grid Grid.Row="2" Background="#CEFFF9">
+            <StackPanel Orientation="Horizontal" Width="1000">
+                <Button Name="Add_btn" Click="Add_btn_Click" Height="25" Width="100" Background="#00CC76" Content="Добавить" FontFamily="Gabriola" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15 0 15 0"></Button>
+                <Button Name="Edit_btn" Click="Edit_btn_Click" Height="25" Width="100" Background="#00CC76" Content="Изменить" FontFamily="Gabriola" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Hidden"></Button>
+                <Button Name="delet_btn" Click="delet_btn_Click" Height="25" Width="100" Background="#00CC76" Content="Удалить" FontFamily="Gabriola" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="660 0 15 0" Visibility="Hidden"></Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
